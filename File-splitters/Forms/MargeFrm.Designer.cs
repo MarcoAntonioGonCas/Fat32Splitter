@@ -32,25 +32,27 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbTipoParticion = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.lsvArchivosPesados = new System.Windows.Forms.ListView();
-            this.btnArchivosPesados = new System.Windows.Forms.Button();
+            this.lsvArchivosParticionados = new System.Windows.Forms.ListView();
+            this.btnBuscarArchivosParticionados = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.pgrParticion = new System.Windows.Forms.ProgressBar();
+            this.pgrMezcla = new System.Windows.Forms.ProgressBar();
+            this.lblInfoProgreso = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.lblInfoProgreso);
             this.panel2.Controls.Add(this.btnCancelar);
-            this.panel2.Controls.Add(this.pgrParticion);
+            this.panel2.Controls.Add(this.pgrMezcla);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.cmbTipoParticion);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.lsvArchivosPesados);
-            this.panel2.Controls.Add(this.btnArchivosPesados);
+            this.panel2.Controls.Add(this.lsvArchivosParticionados);
+            this.panel2.Controls.Add(this.btnBuscarArchivosParticionados);
             this.panel2.Location = new System.Drawing.Point(12, 27);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(421, 454);
+            this.panel2.Size = new System.Drawing.Size(421, 484);
             this.panel2.TabIndex = 11;
             // 
             // label2
@@ -72,6 +74,7 @@
             this.cmbTipoParticion.Name = "cmbTipoParticion";
             this.cmbTipoParticion.Size = new System.Drawing.Size(388, 28);
             this.cmbTipoParticion.TabIndex = 11;
+            this.cmbTipoParticion.SelectedIndexChanged += new System.EventHandler(this.cmbTipoParticion_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -82,25 +85,26 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Doble Click para seleccionar";
             // 
-            // lsvArchivosPesados
+            // lsvArchivosParticionados
             // 
-            this.lsvArchivosPesados.HideSelection = false;
-            this.lsvArchivosPesados.Location = new System.Drawing.Point(15, 134);
-            this.lsvArchivosPesados.Name = "lsvArchivosPesados";
-            this.lsvArchivosPesados.Size = new System.Drawing.Size(388, 230);
-            this.lsvArchivosPesados.TabIndex = 9;
-            this.lsvArchivosPesados.UseCompatibleStateImageBehavior = false;
-            this.lsvArchivosPesados.View = System.Windows.Forms.View.List;
+            this.lsvArchivosParticionados.HideSelection = false;
+            this.lsvArchivosParticionados.Location = new System.Drawing.Point(15, 134);
+            this.lsvArchivosParticionados.Name = "lsvArchivosParticionados";
+            this.lsvArchivosParticionados.Size = new System.Drawing.Size(388, 230);
+            this.lsvArchivosParticionados.TabIndex = 9;
+            this.lsvArchivosParticionados.UseCompatibleStateImageBehavior = false;
+            this.lsvArchivosParticionados.View = System.Windows.Forms.View.List;
             // 
-            // btnArchivosPesados
+            // btnBuscarArchivosParticionados
             // 
-            this.btnArchivosPesados.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnArchivosPesados.Location = new System.Drawing.Point(12, 10);
-            this.btnArchivosPesados.Name = "btnArchivosPesados";
-            this.btnArchivosPesados.Size = new System.Drawing.Size(391, 43);
-            this.btnArchivosPesados.TabIndex = 8;
-            this.btnArchivosPesados.Text = "Buscar archivos particionados";
-            this.btnArchivosPesados.UseVisualStyleBackColor = true;
+            this.btnBuscarArchivosParticionados.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscarArchivosParticionados.Location = new System.Drawing.Point(12, 10);
+            this.btnBuscarArchivosParticionados.Name = "btnBuscarArchivosParticionados";
+            this.btnBuscarArchivosParticionados.Size = new System.Drawing.Size(391, 43);
+            this.btnBuscarArchivosParticionados.TabIndex = 8;
+            this.btnBuscarArchivosParticionados.Text = "Buscar archivos particionados";
+            this.btnBuscarArchivosParticionados.UseVisualStyleBackColor = true;
+            this.btnBuscarArchivosParticionados.Click += new System.EventHandler(this.btnBuscarArchivosParticionados_Click);
             // 
             // btnCancelar
             // 
@@ -108,7 +112,7 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCancelar.Location = new System.Drawing.Point(15, 411);
+            this.btnCancelar.Location = new System.Drawing.Point(15, 428);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(388, 43);
             this.btnCancelar.TabIndex = 15;
@@ -116,18 +120,26 @@
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Visible = false;
             // 
-            // pgrParticion
+            // pgrMezcla
             // 
-            this.pgrParticion.Location = new System.Drawing.Point(15, 374);
-            this.pgrParticion.Name = "pgrParticion";
-            this.pgrParticion.Size = new System.Drawing.Size(385, 31);
-            this.pgrParticion.TabIndex = 13;
+            this.pgrMezcla.Location = new System.Drawing.Point(15, 391);
+            this.pgrMezcla.Name = "pgrMezcla";
+            this.pgrMezcla.Size = new System.Drawing.Size(385, 31);
+            this.pgrMezcla.TabIndex = 13;
+            // 
+            // lblInfoProgreso
+            // 
+            this.lblInfoProgreso.AutoSize = true;
+            this.lblInfoProgreso.Location = new System.Drawing.Point(12, 371);
+            this.lblInfoProgreso.Name = "lblInfoProgreso";
+            this.lblInfoProgreso.Size = new System.Drawing.Size(0, 13);
+            this.lblInfoProgreso.TabIndex = 16;
             // 
             // MargeFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 493);
+            this.ClientSize = new System.Drawing.Size(455, 523);
             this.Controls.Add(this.panel2);
             this.Name = "MargeFrm";
             this.Text = "Mezclar particiones";
@@ -141,11 +153,12 @@
 
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ListView lsvArchivosPesados;
-        private System.Windows.Forms.Button btnArchivosPesados;
+        private System.Windows.Forms.ListView lsvArchivosParticionados;
+        private System.Windows.Forms.Button btnBuscarArchivosParticionados;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbTipoParticion;
         private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.ProgressBar pgrParticion;
+        private System.Windows.Forms.ProgressBar pgrMezcla;
+        private System.Windows.Forms.Label lblInfoProgreso;
     }
 }
