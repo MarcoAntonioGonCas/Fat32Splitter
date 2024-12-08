@@ -198,7 +198,7 @@ namespace File_splitters.Forms
         {
             FileInfo informacionArchivo = new FileInfo(rutaArchivo);
 
-            string label = $"{informacionArchivo.Name} - Tamaño: {informacionArchivo.Length} bytes";
+            string label = $"{informacionArchivo.Name} - Tamaño: {FileSizeFormatter.FormatSize(informacionArchivo.Length)}";
 
             lblArchivo.Text = label;
             this._rutaArchivo = rutaArchivo;
