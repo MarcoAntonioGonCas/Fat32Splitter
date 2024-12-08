@@ -47,8 +47,6 @@ namespace File_splitters.Forms
                 BuscarArchivosParticionados(folder.SelectedPath);
             }
 
-
-
         }
 
         private void cmbTipoParticion_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,12 +133,54 @@ namespace File_splitters.Forms
 
 
         }
+        private void SeleccionarArchivoParticionado(string rutaArchivo)
+        {
+            FileInfo fileInfo = new FileInfo(rutaArchivo);
+            string nombreSinParte =  _particionStrategy.RemueveEnumeracion(rutaArchivo);
+            long sumabytes = _fileMarge.ObtieneTotalBytes(rutaArchivo);
+        
+            _rutaArchivoParticion = rutaArchivo;
+            lblArchivo.Text = $"{fileInfo.Name} - {FileSizeFormatter.FormatSize(sumabytes)}";
+
+
+            IniciarFileMarge((TipoParticionCombobox)cmbTipoParticion.SelectedItem);
+            IniciarMezcla();
+        }
+
+        private void IniciarMezcla()
+        {
+            if (_rutaArchivoParticion == null)
+            {
+                MessageBox.Show("Seleccione un archivo particionado");
+                return;
+            }
+
+
+            btnCancelar.Visible = true;
+            _cancelationTokenSource = new CancellationTokenSource();
+
+            Task.Run(() =>
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                   _fileMarge.Marge(_rutaArchivoParticion, _cancelationTokenSource.Token);
+                });
+                
+            });
+        }
 
 
         #endregion
 
 
         #region Eventos asociados a la mezcla de archivos
+
+        private void ProcesoCanceladoOCompletado()
+        {
+            btnCancelar.Visible = false;
+            pgrMezcla.Value = 0;
+            lblInfoProgreso.Text = "";
+        }
 
         private void _fileMarge_Error(object sender, string e)
         {
@@ -149,14 +189,40 @@ namespace File_splitters.Forms
 
         private void _fileMarge_Progreso(object sender, ProgressMargeArgs e)
         {
-            double progreso = e.BytesActuales / e.TotalBytes;
+            double progreso = (double)e.BytesActuales / (double)e.TotalBytes;
 
             lblInfoProgreso.Text = $"{progreso}%  {e.BytesActuales} / {e.TotalBytes}";
 
             pgrMezcla.Value = (int)(progreso * 100);
 
+
+            if(e.Porcentaje == 1)
+            {
+                ProcesoCanceladoOCompletado();
+            }
+
         }
 
         #endregion
+
+        private void lsvArchivosParticionados_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                ListViewHitTestInfo hit = lsvArchivosParticionados.HitTest(e.Location);
+                if (hit.Item != null)
+                {
+                    SeleccionarArchivoParticionado(hit.Item.Text);
+                    
+                }
+
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this._cancelationTokenSource.Cancel();
+            ProcesoCanceladoOCompletado();
+        }
     }
 }
