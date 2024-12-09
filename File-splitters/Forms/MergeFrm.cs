@@ -76,6 +76,38 @@ namespace File_splitters.Forms
             return dialogResult == DialogResult.Yes;
         }
 
+        private bool ConfirmarEliminarPartes()
+        {
+
+            DialogResult dialogResult = MessageBox.Show(
+                "El archivo original ya esta mezclado correctamente, ¿Desea eliminar las partes?",
+                "Eliminar archivos",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+                );
+            return dialogResult == DialogResult.Yes;
+        }
+
+        private bool PreguntarEliminarOriginal()
+        {
+            DialogResult dialogResult = MessageBox.Show(
+                "¿Desea eliminar el archivo original, debido a que no esta mezclado correctamente?",
+                "Eliminar archivo original",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+                );
+            return dialogResult == DialogResult.Yes;
+        }
+
+
+        public bool ExisteArchivoOriginal(string nombreArchivoPrimeraParte)
+        {
+            return _fileMarge.ExisteArchivoOriginalYCompleto(nombreArchivoPrimeraParte);
+        }
+        public bool ExisteArchivoOriginalYCompleto(string nombreArchivoPrimeraParte)
+        {
+            return _fileMarge.ExisteArchivoOriginalYCompleto(nombreArchivoPrimeraParte);
+        }
 
         #endregion
 
@@ -137,14 +169,46 @@ namespace File_splitters.Forms
         {
             FileInfo fileInfo = new FileInfo(rutaArchivo);
             string nombreSinParte =  _particionStrategy.RemueveEnumeracion(rutaArchivo);
-            long sumabytes = _fileMarge.ObtieneTotalBytes(rutaArchivo);
+            long sumabytes = _fileMarge.CalcularBytesDePartes(rutaArchivo);
         
             _rutaArchivoParticion = rutaArchivo;
             lblArchivo.Text = $"{fileInfo.Name} - {FileSizeFormatter.FormatSize(sumabytes)}";
+            
 
+            
 
-            IniciarFileMarge((TipoParticionCombobox)cmbTipoParticion.SelectedItem);
             IniciarMezcla();
+        }
+
+        private bool ContinuarMezclaDeArchivo(string rutaArchivoParticion)
+        {
+            // Verificamos si existe el archivo original
+            if (this.ExisteArchivoOriginal(_rutaArchivoParticion))
+            {
+
+                // Si existe el archivo original, preguntamos si desea eliminar las partes
+                if (ExisteArchivoOriginalYCompleto(_rutaArchivoParticion))
+                {
+                    if (ConfirmarEliminarPartes())
+                    {
+                        _fileMarge.EliminarPartesDeArchivoMezclado(_rutaArchivoParticion);
+                    }
+                    return false;
+                }
+                // Si no esta completo, preguntamos si desea eliminar el archivo original para volver a mezclar
+                else
+                {
+                    if (PreguntarEliminarOriginal())
+                    {
+                       this._fileMarge.EliminarArchivoOriginal(_rutaArchivoParticion);
+                    }
+                }
+
+
+            }
+
+
+            return true;
         }
 
         private void IniciarMezcla()
@@ -156,6 +220,12 @@ namespace File_splitters.Forms
             }
 
 
+            if(ContinuarMezclaDeArchivo(_rutaArchivoParticion) == false)
+            {
+                return;
+            }
+
+            _fileMarge.EliminarPartesAlFinalizar = this.chkEliminarPartesFinalizar.Checked;
             btnCancelar.Visible = true;
             _cancelationTokenSource = new CancellationTokenSource();
 
@@ -185,6 +255,7 @@ namespace File_splitters.Forms
         private void _fileMarge_Error(object sender, string e)
         {
             MessageBox.Show(e);
+            ProcesoCanceladoOCompletado();
         }
 
         private void _fileMarge_Progreso(object sender, ProgressMergeArgs e)
