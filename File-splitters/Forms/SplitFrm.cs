@@ -75,6 +75,8 @@ namespace File_splitters.Forms
         
             if(e.Porcentaje == 1)
             {
+
+                MessageBox.Show("Particionado completado");
                 OperacionesProgresoCompletadoOError();
             }
 
@@ -249,10 +251,8 @@ namespace File_splitters.Forms
                 {
                     _fileSplit.EliminarParticionesPreviamente(this._rutaArchivo);
                 }
-                else
-                {
-                    return;
-                }
+                
+                return;
             }
 
             if (!ArchivoSeleccionado())
