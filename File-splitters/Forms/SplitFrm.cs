@@ -31,6 +31,7 @@ namespace File_splitters.Forms
             cmbTipoParticion.DataSource = Enum.GetValues(typeof(TipoParticionCombobox));
         }
 
+        #region Metodos de particion
         private void InicarFileSplit(TipoParticionCombobox tipoParticionSeleccionada)
         {
             IParticionStrategy particionStrategy;
@@ -75,12 +76,47 @@ namespace File_splitters.Forms
         
             if(e.Porcentaje == 1)
             {
-
-                MessageBox.Show("Particionado completado");
+                OperacionCompletada();
                 OperacionesProgresoCompletadoOError();
             }
 
         }
+
+        private void IniciarParticion()
+        {
+
+            if (!ArchivoSeleccionado())
+            {
+                MessageBox.Show("No se ha seleccionado ningun archivo");
+                return;
+            }
+
+
+            if (_fileSplit == null)
+            {
+                MessageBox.Show("No se ha seleccionado ningun tipo de particion");
+                return;
+            }
+
+            bool borrarOriginal = PregunstarBorrarOriginal();
+
+
+            _fileSplit.BorrarOriginal = borrarOriginal;
+
+
+            Task.Run(() =>
+            {
+                // El hilo secundario no puede acceder directamente a controles en la UI
+                // Usamos Invoke para ejecutar el código en el hilo principal
+                this.Invoke((MethodInvoker)delegate
+                {
+                    // Ahora podemos usar tipoParticionSeleccionado en el hilo secundario
+                    _fileSplit.FilleSplit(this._rutaArchivo, _cancellationTokenSource.Token);
+                });
+            });
+        }
+
+        #endregion
 
         private void BtnSeleccionarArchivo_Click(object sender, EventArgs e)
         {
@@ -111,6 +147,51 @@ namespace File_splitters.Forms
         private void SplitFrm_Load(object sender, EventArgs e)
         {
             
+        }
+        private void cmbTipoParticion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTipoParticion.SelectedItem != null && cmbTipoParticion.SelectedIndex != -1)
+            {
+                TipoParticionCombobox tipoParticionSeleccionada = (TipoParticionCombobox)cmbTipoParticion.SelectedItem;
+
+                InicarFileSplit(tipoParticionSeleccionada);
+            }
+        }
+
+        private void btnParticionar_Click(object sender, EventArgs e)
+        {
+
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            btnCancelar.Visible = true;
+
+
+            if (_fileSplit.HaSidoParticionadoPreviamente(this._rutaArchivo))
+            {
+
+                DialogResult dialogResult = MessageBox.Show(
+                    "El archivo ya ha sido particionado previamente, ¿Desea eliminar las particiones previas?",
+                    "Eliminar particiones previas",
+                    MessageBoxButtons.YesNo
+                    );
+
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    _fileSplit.EliminarParticionesPreviamente(this._rutaArchivo);
+                }
+
+                return;
+            }
+
+
+            IniciarParticion();
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this._cancellationTokenSource.Cancel();
         }
 
         private void btnArchivosPesados_Click(object sender, EventArgs e)
@@ -161,6 +242,12 @@ namespace File_splitters.Forms
             }
         }
 
+
+
+
+
+        #region Metodos de preguntas
+
         private bool PreguntarBuscarRecursivo()
         {
             DialogResult dialogResult = MessageBox.Show(
@@ -180,9 +267,13 @@ namespace File_splitters.Forms
             return dialogResult == DialogResult.Yes;
         }
 
+        #endregion
 
-        #region Metodos de seleccion de archivo
 
+        private void OperacionCompletada()
+        {
+            MessageBox.Show("Operacion completada");
+        }
         private void OperacionesProgresoCompletadoOError()
         {
             btnCancelar.Visible = false;
@@ -196,6 +287,7 @@ namespace File_splitters.Forms
             return tamanio > FileConstants.tamanioMaxFat32;
         }
 
+        #region Metodos de seleccion de archivo
         private void Seleccionar(string rutaArchivo)
         {
             FileInfo informacionArchivo = new FileInfo(rutaArchivo);
@@ -219,77 +311,6 @@ namespace File_splitters.Forms
         }
         #endregion
 
-        private void cmbTipoParticion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(cmbTipoParticion.SelectedItem != null && cmbTipoParticion.SelectedIndex != -1)
-            {
-                TipoParticionCombobox tipoParticionSeleccionada = (TipoParticionCombobox)cmbTipoParticion.SelectedItem;
 
-                InicarFileSplit(tipoParticionSeleccionada);
-            }
-        }
-
-        private void btnParticionar_Click(object sender, EventArgs e)
-        {
-
-
-            _cancellationTokenSource = new CancellationTokenSource();
-            btnCancelar.Visible = true;
-
-
-            if(_fileSplit.HaSidoParticionadoPreviamente(this._rutaArchivo))
-            {
-
-                DialogResult dialogResult = MessageBox.Show(
-                    "El archivo ya ha sido particionado previamente, ¿Desea eliminar las particiones previas?",
-                    "Eliminar particiones previas",
-                    MessageBoxButtons.YesNo
-                    );
-
-
-                if (dialogResult == DialogResult.Yes)
-                {
-                    _fileSplit.EliminarParticionesPreviamente(this._rutaArchivo);
-                }
-                
-                return;
-            }
-
-            if (!ArchivoSeleccionado())
-            {
-                MessageBox.Show("No se ha seleccionado ningun archivo");
-                return;
-            }
-
-
-            if (_fileSplit == null)
-            {
-                MessageBox.Show("No se ha seleccionado ningun tipo de particion");
-                return;
-            }
-
-            bool borrarOriginal = PregunstarBorrarOriginal();
-
-
-            _fileSplit.BorrarOriginal = borrarOriginal;
-
-
-            Task.Run(() =>
-            {
-                // El hilo secundario no puede acceder directamente a controles en la UI
-                // Usamos Invoke para ejecutar el código en el hilo principal
-                this.Invoke((MethodInvoker)delegate
-                {
-                    // Ahora podemos usar tipoParticionSeleccionado en el hilo secundario
-                    _fileSplit.FilleSplit(this._rutaArchivo,_cancellationTokenSource.Token);
-                });
-            });
-
-        }
-
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this._cancellationTokenSource.Cancel();
-        }
     }
 }
