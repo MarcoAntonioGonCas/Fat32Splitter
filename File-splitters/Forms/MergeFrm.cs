@@ -165,8 +165,26 @@ namespace File_splitters.Forms
 
 
         }
+
+        private bool ExisteArchivoParaMezclar(string rutaArchivo)
+        {
+            if (rutaArchivo == null)
+            {
+                return false
+            }
+
+            if (!File.Exists(rutaArchivo))
+            {
+                return false;
+            }
+
+            return true;
+        }
         private void SeleccionarArchivoParticionado(string rutaArchivo)
         {
+
+            
+
             FileInfo fileInfo = new FileInfo(rutaArchivo);
             string nombreSinParte =  _particionStrategy.RemueveEnumeracion(rutaArchivo);
             long sumabytes = _fileMarge.CalcularBytesDePartes(rutaArchivo);
@@ -216,6 +234,12 @@ namespace File_splitters.Forms
             if (_rutaArchivoParticion == null)
             {
                 MessageBox.Show("Seleccione un archivo particionado");
+                return;
+            }
+
+            if(ExisteArchivoParaMezclar(_rutaArchivoParticion) == false)
+            {
+                MessageBox.Show("El archivo no existe");
                 return;
             }
 
