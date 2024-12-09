@@ -39,11 +39,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lsvArchivosParticionados = new System.Windows.Forms.ListView();
             this.btnBuscarArchivosParticionados = new System.Windows.Forms.Button();
+            this.chkEliminarPartesFinalizar = new System.Windows.Forms.CheckBox();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.chkEliminarPartesFinalizar);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.lblArchivo);
             this.panel2.Controls.Add(this.lblInfoProgreso);
@@ -132,7 +134,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 131);
+            this.label3.Location = new System.Drawing.Point(12, 170);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(142, 13);
             this.label3.TabIndex = 10;
@@ -141,9 +143,9 @@
             // lsvArchivosParticionados
             // 
             this.lsvArchivosParticionados.HideSelection = false;
-            this.lsvArchivosParticionados.Location = new System.Drawing.Point(15, 157);
+            this.lsvArchivosParticionados.Location = new System.Drawing.Point(15, 198);
             this.lsvArchivosParticionados.Name = "lsvArchivosParticionados";
-            this.lsvArchivosParticionados.Size = new System.Drawing.Size(388, 230);
+            this.lsvArchivosParticionados.Size = new System.Drawing.Size(388, 189);
             this.lsvArchivosParticionados.TabIndex = 9;
             this.lsvArchivosParticionados.UseCompatibleStateImageBehavior = false;
             this.lsvArchivosParticionados.View = System.Windows.Forms.View.List;
@@ -159,6 +161,17 @@
             this.btnBuscarArchivosParticionados.Text = "Buscar archivos particionados";
             this.btnBuscarArchivosParticionados.UseVisualStyleBackColor = true;
             this.btnBuscarArchivosParticionados.Click += new System.EventHandler(this.btnBuscarArchivosParticionados_Click);
+            // 
+            // chkEliminarPartesFinalizar
+            // 
+            this.chkEliminarPartesFinalizar.AutoSize = true;
+            this.chkEliminarPartesFinalizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEliminarPartesFinalizar.Location = new System.Drawing.Point(15, 138);
+            this.chkEliminarPartesFinalizar.Name = "chkEliminarPartesFinalizar";
+            this.chkEliminarPartesFinalizar.Size = new System.Drawing.Size(189, 21);
+            this.chkEliminarPartesFinalizar.TabIndex = 19;
+            this.chkEliminarPartesFinalizar.Text = "Eliminar partes al finalizar";
+            this.chkEliminarPartesFinalizar.UseVisualStyleBackColor = true;
             // 
             // MergeFrm
             // 
@@ -188,5 +201,6 @@
         private System.Windows.Forms.Label lblInfoProgreso;
         private System.Windows.Forms.Label lblArchivo;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkEliminarPartesFinalizar;
     }
 }
