@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace File_splitters.FileHelper
 {
-    public class FileMargeHelper
+    public class FileMerge
     {
         public static Regex regexArchivo666part = new Regex(@"\.666\d{2}$");
         public static Regex regexPuntoPart = new Regex(@"\.\d+$");

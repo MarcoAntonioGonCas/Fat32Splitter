@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace File_splitters.FileHelper.Marge
 {
-    public class ProgressMargeArgs:EventArgs
+    public class ProgressMergeArgs:EventArgs
     {
 
         public int TotalPartes { get; set; }

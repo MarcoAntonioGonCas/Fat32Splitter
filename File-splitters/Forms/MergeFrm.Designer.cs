@@ -1,6 +1,6 @@
 ﻿namespace File_splitters.Forms
 {
-    partial class MargeFrm
+    partial class MergeFrm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblArchivo = new System.Windows.Forms.Label();
             this.lblInfoProgreso = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.pgrMezcla = new System.Windows.Forms.ProgressBar();
@@ -37,8 +39,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lsvArchivosParticionados = new System.Windows.Forms.ListView();
             this.btnBuscarArchivosParticionados = new System.Windows.Forms.Button();
-            this.lblArchivo = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +58,25 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(421, 499);
             this.panel2.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(16, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 20);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Archivo:";
+            // 
+            // lblArchivo
+            // 
+            this.lblArchivo.AutoSize = true;
+            this.lblArchivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArchivo.Location = new System.Drawing.Point(89, 10);
+            this.lblArchivo.Name = "lblArchivo";
+            this.lblArchivo.Size = new System.Drawing.Size(0, 20);
+            this.lblArchivo.TabIndex = 17;
             // 
             // lblInfoProgreso
             // 
@@ -141,32 +160,14 @@
             this.btnBuscarArchivosParticionados.UseVisualStyleBackColor = true;
             this.btnBuscarArchivosParticionados.Click += new System.EventHandler(this.btnBuscarArchivosParticionados_Click);
             // 
-            // lblArchivo
-            // 
-            this.lblArchivo.AutoSize = true;
-            this.lblArchivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArchivo.Location = new System.Drawing.Point(89, 10);
-            this.lblArchivo.Name = "lblArchivo";
-            this.lblArchivo.Size = new System.Drawing.Size(0, 20);
-            this.lblArchivo.TabIndex = 17;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 20);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Archivo:";
-            // 
-            // MargeFrm
+            // MergeFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(455, 523);
             this.Controls.Add(this.panel2);
-            this.Name = "MargeFrm";
+            this.Name = "MergeFrm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mezclar particiones";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

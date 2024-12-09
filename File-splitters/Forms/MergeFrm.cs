@@ -15,15 +15,15 @@ using System.Windows.Forms;
 
 namespace File_splitters.Forms
 {
-    public partial class MargeFrm : Form
+    public partial class MergeFrm : Form
     {
-        private FileMarge _fileMarge;
+        private FileMerge _fileMarge;
         private CancellationTokenSource _cancelationTokenSource;
         private IParticionStrategy _particionStrategy;
         private string _rutaArchivoParticion;
 
 
-        public MargeFrm()
+        public MergeFrm()
         {
             InitializeComponent();
             cmbTipoParticion.DataSource = Enum.GetValues(typeof(TipoParticionCombobox));
@@ -101,7 +101,7 @@ namespace File_splitters.Forms
                 _fileMarge.Error -= _fileMarge_Error;
             }
 
-            _fileMarge = new FileMarge(
+            _fileMarge = new FileMerge(
                 particionStrategy
                 );
             _fileMarge.Progreso += _fileMarge_Progreso;
@@ -187,7 +187,7 @@ namespace File_splitters.Forms
             MessageBox.Show(e);
         }
 
-        private void _fileMarge_Progreso(object sender, ProgressMargeArgs e)
+        private void _fileMarge_Progreso(object sender, ProgressMergeArgs e)
         {
             double progreso = (double)e.BytesActuales / (double)e.TotalBytes;
 
