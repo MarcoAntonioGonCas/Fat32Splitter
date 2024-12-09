@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace File_splitters.FileHelper.Marge
 {
-    public class FileMarge
+    public class FileMerge
     {
-        public delegate void MargeSplit(object sender, ProgressMargeArgs e);
-        public delegate void MargeSplitGeneric<T>(T sender, ProgressMargeArgs e);
+        public delegate void MargeSplit(object sender, ProgressMergeArgs e);
+        public delegate void MargeSplitGeneric<T>(T sender, ProgressMergeArgs e);
 
-        public event EventHandler<ProgressMargeArgs> Progreso;
+        public event EventHandler<ProgressMergeArgs> Progreso;
         public event EventHandler<string> Error;
 
         public bool EliminarPartes { get; set; } = false;
 
         private readonly IParticionStrategy _particion;
 
-        public FileMarge(IParticionStrategy particion)
+        public FileMerge(IParticionStrategy particion)
         {
             _particion = particion;
         }
@@ -51,7 +51,7 @@ namespace File_splitters.FileHelper.Marge
             if (existeArchivoOriginal)
             {
                 // No seguimos ya que existe el archivo original
-                Progreso?.Invoke(this, new ProgressMargeArgs()
+                Progreso?.Invoke(this, new ProgressMergeArgs()
                 {
                     BytesActuales = totalBytesPartes,
                     TotalPartes = partes.Length,
@@ -99,7 +99,7 @@ namespace File_splitters.FileHelper.Marge
 
                             this.Progreso?.Invoke(
                                 this,
-                                new ProgressMargeArgs()
+                                new ProgressMergeArgs()
                                 {
                                     BytesActuales = bytesEscritos,
                                     TotalBytes = totalBytesPartes,
