@@ -17,7 +17,7 @@ namespace File_splitters.FileHelper.Marge
         public event EventHandler<ProgressMergeArgs> Progreso;
         public event EventHandler<string> Error;
 
-        public bool EliminarPartes { get; set; } = false;
+        public bool EliminarPartesAlFinalizar { get; set; } = false;
 
         private readonly IParticionStrategy _particion;
 
@@ -37,7 +37,7 @@ namespace File_splitters.FileHelper.Marge
 
 
             string[] partes = this._particion.ObtienePartesFaltantes(informacionPrimeraParte);
-            long totalBytesPartes = ObtieneTotalBytes(nombreArchivoPrimeraParte);
+            long totalBytesPartes = CalcularBytesDePartes(nombreArchivoPrimeraParte);
 
 
 
@@ -112,6 +112,11 @@ namespace File_splitters.FileHelper.Marge
                             }
                         }
 
+                        if (this.EliminarPartesAlFinalizar)
+                        {
+                            this.EliminarPartesDeArchivoMezclado(nombreArchivoPrimeraParte);
+                        }
+
                     }
                 }
                 catch (TaskCanceledException)
@@ -135,7 +140,7 @@ namespace File_splitters.FileHelper.Marge
         }
 
 
-        public long ObtieneTotalBytes(string nombreArchivoPrimeraParte)
+        public long CalcularBytesDePartes(string nombreArchivoPrimeraParte)
         {
             FileInfo informacionPrimeraParte = new FileInfo(nombreArchivoPrimeraParte);
             string[] partes = this._particion.ObtienePartesFaltantes(informacionPrimeraParte);
@@ -154,7 +159,7 @@ namespace File_splitters.FileHelper.Marge
             return false;
         }
 
-        public bool EliminarPartesDeArchivoParticionado(string nombreArchivoPrimeraParte)
+        public bool EliminarPartesDeArchivoMezclado(string nombreArchivoPrimeraParte)
         {
             FileInfo informacionPrimeraParte = new FileInfo(nombreArchivoPrimeraParte);
             string[] partes = this._particion.ObtienePartesFaltantes(informacionPrimeraParte);
