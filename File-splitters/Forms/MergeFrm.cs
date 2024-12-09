@@ -170,7 +170,7 @@ namespace File_splitters.Forms
         {
             if (rutaArchivo == null)
             {
-                return false
+                return false;
             }
 
             if (!File.Exists(rutaArchivo))
