@@ -46,24 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Class1.cs" />
+    <Compile Include="Common\FileSizeFormatter.cs" />
+    <Compile Include="Common\TipoParticionCombobox.cs" />
     <Compile Include="FileHelper\FileConstants.cs" />
     <Compile Include="FileHelper\FileHelper.cs" />
-    <Compile Include="FileHelper\FileMargeHelper.cs" />
+    <Compile Include="FileHelper\FileMerge.cs" />
     <Compile Include="FileHelper\FileSplitHelper.cs" />
     <Compile Include="FileHelper\FileSearchHelper.cs" />
-    <Compile Include="FileHelper\Marge\FileMarge.cs" />
-    <Compile Include="FileHelper\Marge\ProgressMargeArgs.cs" />
+    <Compile Include="FileHelper\Merge\FileMerge.cs" />
+    <Compile Include="FileHelper\Merge\ProgressMergeArgs.cs" />
     <Compile Include="FileHelper\Particion\Archivo666PartStrategy.cs" />
     <Compile Include="FileHelper\Particion\IParticionStrategy.cs" />
     <Compile Include="FileHelper\Split\FileSplit.cs" />
     <Compile Include="FileHelper\Split\FileSplitErrorArgs.cs" />
     <Compile Include="FileHelper\Split\ProgressSplitArgs.cs" />
-    <Compile Include="Forms\MargeFrm.cs">
+    <Compile Include="Forms\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MargeFrm.Designer.cs">
-      <DependentUpon>MargeFrm.cs</DependentUpon>
+    <Compile Include="Forms\FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MergeFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MergeFrm.Designer.cs">
+      <DependentUpon>MergeFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SplitFrm.cs">
       <SubType>Form</SubType>
@@ -73,8 +80,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\MargeFrm.resx">
-      <DependentUpon>MargeFrm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MergeFrm.resx">
+      <DependentUpon>MergeFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SplitFrm.resx">
       <DependentUpon>SplitFrm.cs</DependentUpon>
